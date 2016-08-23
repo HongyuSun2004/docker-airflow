@@ -1,4 +1,4 @@
-# docker-airflow with orcal client
+# docker-airflow with oracle client
 
 ## Informations
 
