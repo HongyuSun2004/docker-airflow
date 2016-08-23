@@ -29,7 +29,7 @@ services:
 
   airflow-worker:
     container_name: airflow-worker
-    image: wth/airflow
+    image: my/airflow
     volumes:
         - /home/docker/airflow/dags:/usr/local/airflow/dags
     environment:
@@ -43,7 +43,7 @@ services:
 
   airflow-scheduler:
     container_name: airflow-scheduler
-    image: wth/airflow
+    image: my/airflow
     volumes:
         - /home/docker/airflow/dags:/usr/local/airflow/dags
     environment:
@@ -55,7 +55,7 @@ services:
 
   airflow-flower:
     container_name: airflow-flower
-    image: wth/airflow
+    image: my/airflow
     environment:
         - AIRFLOW_HOME=/usr/local/airflow
     ports:
@@ -66,7 +66,7 @@ services:
 
   airflow-webserver:
     container_name: airflow-webserver
-    image: wth/airflow
+    image: myairflow
     volumes:
         - /home/docker/airflow/dags:/usr/local/airflow/dags
     environment:

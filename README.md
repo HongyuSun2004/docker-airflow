@@ -13,7 +13,7 @@
 * If you need to install [Extra Packages](http://pythonhosted.org/airflow/installation.html#extra-package), edit the Dockerfile and add other options.
 
         cd ~/docker-airflow
-        docker build --rm -t wth/airflow .
+        docker build --rm -t my/airflow .
 
 # Usage
 
