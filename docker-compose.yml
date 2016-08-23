@@ -1,0 +1,80 @@
+version: '2'
+
+services:
+  airflow-mysql:
+    container_name: airflow-mysql
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql_root
+      MYSQL_USER: airflow
+      MYSQL_PASSWORD: airflow
+      MYSQL_DATABASE: airflow
+    volumes:    
+      - /var/lib/mysql   
+    ports:    
+      - "3306:3306"   
+
+  airflow-rabbitmq:
+    container_name: airflow-rabbitmq
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: airflow
+      RABBITMQ_DEFAULT_PASS: airflow
+      RABBITMQ_DEFAULT_VHOST: airflow
+    volumes:    
+      - /var/lib/rabbitmq        
+    ports:
+      - "5672:5672"
+      - "15672:15672"    
+
+  airflow-worker:
+    container_name: airflow-worker
+    image: wth/airflow
+    volumes:
+        - /home/docker/airflow/dags:/usr/local/airflow/dags
+    environment:
+        - AIRFLOW_HOME=/usr/local/airflow
+    ports:
+        - "8793:8793"
+    links:
+      - airflow-mysql
+      - airflow-rabbitmq 
+    command: airflow worker
+
+  airflow-scheduler:
+    container_name: airflow-scheduler
+    image: wth/airflow
+    volumes:
+        - /home/docker/airflow/dags:/usr/local/airflow/dags
+    environment:
+        - AIRFLOW_HOME=/usr/local/airflow
+    links:
+      - airflow-mysql
+      - airflow-rabbitmq 
+    command: airflow scheduler
+
+  airflow-flower:
+    container_name: airflow-flower
+    image: wth/airflow
+    environment:
+        - AIRFLOW_HOME=/usr/local/airflow
+    ports:
+        - "5555:5555"
+    links:
+      - airflow-rabbitmq 
+    command: airflow flower
+
+  airflow-webserver:
+    container_name: airflow-webserver
+    image: wth/airflow
+    volumes:
+        - /home/docker/airflow/dags:/usr/local/airflow/dags
+    environment:
+        - AIRFLOW_HOME=/usr/local/airflow
+    ports:
+        - "8080:8080"
+    links:
+      - airflow-mysql
+      - airflow-rabbitmq 
+    command: airflow webserver
+
